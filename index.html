@@ -1,12 +1,15 @@
 <html>
 <body>
+  <iframe src="http://ritual-app:5000/"></iframe>
 
-<iframe src="http://ritual-app:5000/"></iframe>
   <script>
-    fetch("http://ritual-app:5000")
-  .then(r => r.text())
-  .then(data => console.log(data))
+    fetch("http://ritual-app:5000/")
+      .then(r => {
+        console.log("status =", r.status);
+        return r.text();
+      })
+      .then(data => console.log(data))
+      .catch(err => console.log("fetch error:", err));
   </script>
-
 </body>
 </html>
