@@ -1,44 +1,34 @@
-<!doctype html>
-<html>
-<body>
 <script>
-console.log("attacker page loaded");
+console.log("attacker page loaded", Date.now());
 
-const w = window.open("about:blank", "_blank");
-if (!w) {
-  console.log("popup blocked");
-} else {
-  console.log("popup opened");
+const w = window.open("about:blank");
+console.log("popup opened", !!w, Date.now());
 
-  try {
-    w.name = "ghost_marker_" + Math.random().toString(36).slice(2);
-    console.log("name set to: " + w.name);
-    console.log("before nav href: " + w.location.href);
-  } catch (e) {
-    console.log("initial setup failed: " + e.message);
-  }
-
-  setTimeout(() => {
-    console.log("navigating popup to ritual-app");
-    w.location = "http://ritual-app:5000/";
-  }, 500);
-
-  setTimeout(() => {
-    try {
-      console.log("after nav closed=" + w.closed);
-      console.log("after nav name=" + w.name);
-    } catch (e) {
-      console.log("after nav name read failed: " + e.message);
-    }
-
-    try {
-      console.log("after nav href=" + w.location.href);
-    } catch (e) {
-      console.log("after nav href read failed: " + e.message);
-    }
-  }, 1800);
+try {
+  w.document.write("<script>console.log('child about:blank live')<\/script>");
+  console.log("write ok", Date.now());
+} catch (e) {
+  console.log("write failed", e.message);
 }
+
+setTimeout(() => {
+  try {
+    console.log("before nav closed?", w.closed, Date.now());
+    w.location = "http://ritual-app:5000/";
+    console.log("nav sent", Date.now());
+  } catch (e) {
+    console.log("nav failed", e.message);
+  }
+}, 0);
+
+let i = 0;
+const t = setInterval(() => {
+  i++;
+  try {
+    console.log("tick", i, "closed=", w.closed, Date.now());
+  } catch (e) {
+    console.log("tick read failed", i, e.message);
+  }
+  if (i > 20) clearInterval(t);
+}, 1);
 </script>
-</body>
-</html>
-</html>
