@@ -1,34 +1,3 @@
 <script>
-console.log("attacker page loaded", Date.now());
-
-const w = window.open("about:blank");
-console.log("popup opened", !!w, Date.now());
-
-try {
-  w.document.write("<script>console.log('child about:blank live')<\/script>");
-  console.log("write ok", Date.now());
-} catch (e) {
-  console.log("write failed", e.message);
-}
-
-setTimeout(() => {
-  try {
-    console.log("before nav closed?", w.closed, Date.now());
-    w.location = "http://ritual-app:5000/";
-    console.log("nav sent", Date.now());
-  } catch (e) {
-    console.log("nav failed", e.message);
-  }
-}, 0);
-
-let i = 0;
-const t = setInterval(() => {
-  i++;
-  try {
-    console.log("tick", i, "closed=", w.closed, Date.now());
-  } catch (e) {
-    console.log("tick read failed", i, e.message);
-  }
-  if (i > 20) clearInterval(t);
-}, 1);
+<iframe src="http://ritual-app:5000/?domain=https://kiki3165.github.io"></iframe>
 </script>
