@@ -1,15 +1,10 @@
+<!doctype html>
 <html>
 <body>
-  <iframe src="http://ritual-app:5000/"></iframe>
+  <iframe src="http://ritual-app:5000/?domain=https://kiki3165.github.io"></iframe>
 
   <script>
-    fetch("http://ritual-app:5000/")
-      .then(r => {
-        console.log("status =", r.status);
-        return r.text();
-      })
-      .then(data => console.log(data))
-      .catch(err => console.log("fetch error:", err));
+    console.log("attacker page loaded");
   </script>
 </body>
 </html>
