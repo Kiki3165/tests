@@ -13,7 +13,7 @@ if (!w) {
   try {
     w.name = "ghost_marker_" + Math.random().toString(36).slice(2);
     console.log("name set to: " + w.name);
-    console.log("initial popup location: " + w.location.href);
+    console.log("before nav href: " + w.location.href);
   } catch (e) {
     console.log("initial setup failed: " + e.message);
   }
@@ -21,23 +21,24 @@ if (!w) {
   setTimeout(() => {
     console.log("navigating popup to ritual-app");
     w.location = "http://ritual-app:5000/";
-  }, 1000);
+  }, 500);
 
   setTimeout(() => {
     try {
-      console.log("after nav, popup.closed = " + w.closed);
-      console.log("after nav, popup.name = " + w.name);
-      console.log("after nav, popup.location read = " + w.location.href);
+      console.log("after nav closed=" + w.closed);
+      console.log("after nav name=" + w.name);
     } catch (e) {
-      console.log("after nav read failed: " + e.message);
-      try {
-        console.log("after nav, popup.name fallback = " + w.name);
-      } catch (e2) {
-        console.log("popup.name fallback failed: " + e2.message);
-      }
+      console.log("after nav name read failed: " + e.message);
     }
-  }, 2000);
+
+    try {
+      console.log("after nav href=" + w.location.href);
+    } catch (e) {
+      console.log("after nav href read failed: " + e.message);
+    }
+  }, 1800);
 }
 </script>
 </body>
+</html>
 </html>
