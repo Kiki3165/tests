@@ -2,42 +2,38 @@
 <html>
 <body>
 <script>
-console.log("race test page loaded", Date.now());
+console.log("RACE30-NEW-CODE-OK", Date.now());
 
 const w = window.open("about:blank");
 console.log("popup opened", !!w, Date.now());
 
-if (!w) {
-  console.log("popup blocked");
-} else {
+if (w) {
   try {
     w.document.write(`
       <script>
-        console.log("child about:blank start", Date.now());
+        console.log("CHILD-ABOUT-BLANK-OK", Date.now());
         window.name = "ghost_" + Math.random().toString(36).slice(2);
-        console.log("child name set", window.name, Date.now());
+        console.log("CHILD-NAME", window.name, Date.now());
       <\/script>
     `);
-    console.log("write ok", Date.now());
+    console.log("WRITE-OK", Date.now());
   } catch (e) {
-    console.log("write failed", e.message);
+    console.log("WRITE-FAIL", e.message);
   }
 
-  let urls = [
+  [
     "http://ritual-app:5000/",
     "about:blank",
     "http://ritual-app:5000/",
     "about:blank",
     "http://ritual-app:5000/"
-  ];
-
-  urls.forEach((u, i) => {
+  ].forEach((u, i) => {
     setTimeout(() => {
       try {
         w.location = u;
-        console.log("nav", i, u, Date.now());
+        console.log("NAV", i, u, Date.now());
       } catch (e) {
-        console.log("nav failed", i, e.message);
+        console.log("NAV-FAIL", i, e.message);
       }
     }, i);
   });
@@ -46,9 +42,9 @@ if (!w) {
   const t = setInterval(() => {
     n++;
     try {
-      console.log("tick", n, "closed=", w.closed, Date.now());
+      console.log("TICK", n, "closed=", w.closed, Date.now());
     } catch (e) {
-      console.log("tick fail", n, e.message);
+      console.log("TICK-FAIL", n, e.message);
     }
     if (n > 30) clearInterval(t);
   }, 1);
