@@ -1,9 +1,39 @@
-<script>
-  let w = window.open("about:blank");
-  try {
-    w.document.write("<script>console.log('blank opener origin test')<\/script>");
-  } catch (e) {
-    console.log("write failed:", e.message);
-  }
-  setTimeout(() => { w.location = "http://ritual-app:5000/"; }, 100);
-</script>
+<!doctype html>
+<html>
+<body>
+  <script>
+    console.log("attacker page loaded");
+
+    const w = window.open("about:blank", "_blank");
+
+    if (!w) {
+      console.log("popup blocked");
+    } else {
+      console.log("popup opened");
+
+      try {
+        w.document.write(`
+          <!doctype html>
+          <html>
+          <body>
+            <script>
+              console.log("about:blank script running");
+              console.log("about:blank origin =", location.origin);
+              console.log("about:blank href =", location.href);
+            <\/script>
+          </body>
+          </html>
+        `);
+        console.log("write into about:blank ok");
+      } catch (e) {
+        console.log("write failed:", e.message);
+      }
+
+      setTimeout(() => {
+        console.log("navigating popup to ritual-app");
+        w.location = "http://ritual-app:5000/";
+      }, 500);
+    }
+  </script>
+</body>
+</html>
