@@ -8,33 +8,35 @@ const w = window.open("about:blank", "_blank");
 if (!w) {
   console.log("popup blocked");
 } else {
+  console.log("popup opened");
+
   try {
-    w.document.open();
-    w.document.write(`
-      <!doctype html>
-      <html>
-      <body>
-      <script>
-        opener.console.log("about:blank running");
-        opener.console.log("about:blank origin=" + location.origin);
-        opener.console.log("about:blank href=" + location.href);
-
-        // essaie de réserver un nom/état avant la nav
-        window.name = "ritual_state";
-        opener.console.log("window.name set");
-
-        setTimeout(() => {
-          location = "http://ritual-app:5000/";
-        }, 50);
-      <\/script>
-      </body>
-      </html>
-    `);
-    w.document.close();
-    console.log("write ok");
+    w.name = "ghost_marker_" + Math.random().toString(36).slice(2);
+    console.log("name set to: " + w.name);
+    console.log("initial popup location: " + w.location.href);
   } catch (e) {
-    console.log("write failed: " + e.message);
+    console.log("initial setup failed: " + e.message);
   }
+
+  setTimeout(() => {
+    console.log("navigating popup to ritual-app");
+    w.location = "http://ritual-app:5000/";
+  }, 1000);
+
+  setTimeout(() => {
+    try {
+      console.log("after nav, popup.closed = " + w.closed);
+      console.log("after nav, popup.name = " + w.name);
+      console.log("after nav, popup.location read = " + w.location.href);
+    } catch (e) {
+      console.log("after nav read failed: " + e.message);
+      try {
+        console.log("after nav, popup.name fallback = " + w.name);
+      } catch (e2) {
+        console.log("popup.name fallback failed: " + e2.message);
+      }
+    }
+  }, 2000);
 }
 </script>
 </body>
