@@ -1,4 +1,9 @@
 <script>
-  console.log("attacker page loaded");
-  window.open("http://ritual-app:5000/", "_blank");
+  let w = window.open("about:blank");
+  try {
+    w.document.write("<script>console.log('blank opener origin test')<\/script>");
+  } catch (e) {
+    console.log("write failed:", e.message);
+  }
+  setTimeout(() => { w.location = "http://ritual-app:5000/"; }, 100);
 </script>
